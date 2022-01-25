@@ -30,7 +30,7 @@ from pathlib import Path
 
 # try: curl -v -X GET http://127.0.0.1:8080/
 
-HOST, PORT, BUFFER_SIZE = "127.0.0.1", 8080, 1
+HOST, PORT, BUFFER_SIZE = "127.0.0.1", 8080, 1024
 BASEURL = "http://127.0.0.1:8080"
 
 class MyWebServer(socketserver.BaseRequestHandler):
@@ -38,13 +38,18 @@ class MyWebServer(socketserver.BaseRequestHandler):
     def handle(self):
         #handles the request
        
+       #STOLE THIS CODE FROM LAB 2
         self.data = b""
         while True:
+            #print(self.data)
             if self.data.find(b"\r\n\r\n") != -1:
                 break
             data = self.request.recv(BUFFER_SIZE)
             self.data += data
-            
+            if self.data == b"":
+                return
+
+         
         self.data.strip()
         #self.data = self.request.recv(BUFFER_SIZE).strip()
   
