@@ -148,7 +148,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
                     return
         
         output_data = f.read()
-        self.file_length = len(output_data)
+        self.file_length = len(bytearray(output_data,'utf-8'))
         self.creating_headers()
         self.request.sendall(bytearray(output_data, 'utf-8'))
         
@@ -207,7 +207,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
             self.request.send(bytearray("Date: {0}\r\n".format(datetime_string), 'utf-8'))
             self.request.send(bytearray("Connection: close \r\n", 'utf-8'))
             self.request.send(bytearray("Content-type: text/html;charset=utf-8\r\n", 'utf-8'))
-            self.request.send(bytearray("Content-Length: {0}\r\n\r\n".format(len(html_400_code)), 'utf-8'))
+            self.request.send(bytearray("Content-Length: {0}\r\n\r\n".format(len(bytearray(html_400_code, 'utf-8'))), 'utf-8'))
             self.request.send(bytearray(html_400_code, 'utf-8'))
         
     def page_not_found_error(self):
@@ -229,7 +229,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
             self.request.send(bytearray("Date: {0}\r\n".format(datetime_string), 'utf-8'))
             self.request.send(bytearray("Connection: close \r\n", 'utf-8'))
             self.request.send(bytearray("Content-type: text/html;charset=utf-8\r\n", 'utf-8'))
-            self.request.send(bytearray("Content-Length: {0}\r\n\r\n".format(len(html_404_code)), 'utf-8'))
+            self.request.send(bytearray("Content-Length: {0}\r\n\r\n".format(len(bytearray(html_404_code, 'utf-8'))), 'utf-8'))
             self.request.send(bytearray(html_404_code, 'utf-8'))
 
 if __name__ == "__main__":
